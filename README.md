@@ -18,12 +18,16 @@ Git & GitHub
 
 Render (deployment)
 
-📁 Project Structure
+## 📁 Project Structure
 
+```text
 Feanch backend/
+│
 ├── app.py
 ├── requirements.txt
 ├── .gitignore
+├── README.md
+│
 └── routes/
     ├── __init__.py
     ├── main.py
@@ -39,7 +43,7 @@ Feanch backend/
     ├── innovation_map.py
     ├── STARTUPS.py
     └── FRENCH_TECHN_INNOVATIONS.py
-
+```
 🔗 API Endpoints
 
 Endpoint
