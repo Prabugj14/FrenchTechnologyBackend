@@ -1,9 +1,107 @@
 from flask import Blueprint, jsonify, request
 
-from routes.ai import AI_DATA
-from routes.biotech import BIOTECH_DATA
-
 search = Blueprint("search", __name__)
+
+
+# Simple list used by the search feature
+SEARCH_DATA = [
+    {
+        "name": "Mistral AI",
+        "section": "AI",
+        "keywords": [
+            "mistral",
+            "artificial intelligence",
+            "generative ai",
+            "open weight",
+            "codestral",
+            "mixtral"
+        ],
+        "endpoint": "/api/ai"
+    },
+
+    {
+        "name": "Hugging Face",
+        "section": "AI",
+        "keywords": [
+            "hugging face",
+            "artificial intelligence",
+            "machine learning",
+            "open source",
+            "models",
+            "datasets"
+        ],
+        "endpoint": "/api/ai"
+    },
+
+    {
+        "name": "Kyutai",
+        "section": "AI",
+        "keywords": [
+            "kyutai",
+            "artificial intelligence",
+            "open science",
+            "moshi",
+            "speech to speech",
+            "multimodal"
+        ],
+        "endpoint": "/api/ai"
+    },
+
+    {
+        "name": "Jean Zay",
+        "section": "AI",
+        "keywords": [
+            "jean zay",
+            "supercomputer",
+            "high performance computing",
+            "hpc",
+            "cnrs"
+        ],
+        "endpoint": "/api/ai"
+    },
+
+    {
+        "name": "CARMAT",
+        "section": "Biotechnology",
+        "keywords": [
+            "carmat",
+            "artificial heart",
+            "aeson",
+            "heart",
+            "medical technology",
+            "biotechnology"
+        ],
+        "endpoint": "/api/biotech"
+    },
+
+    {
+        "name": "TreeFrog Therapeutics",
+        "section": "Biotechnology",
+        "keywords": [
+            "treefrog",
+            "c-stem",
+            "cell therapy",
+            "stem cells",
+            "3d cell culture",
+            "biotechnology"
+        ],
+        "endpoint": "/api/biotech"
+    },
+
+    {
+        "name": "DNA Script",
+        "section": "Biotechnology",
+        "keywords": [
+            "dna script",
+            "dna",
+            "syntax",
+            "enzymatic dna synthesis",
+            "genomics",
+            "biotechnology"
+        ],
+        "endpoint": "/api/biotech"
+    }
+]
 
 
 @search.route("/api/search")
@@ -19,51 +117,16 @@ def search_all():
 
     results = []
 
-    # Search AI
-    for item in AI_DATA.get("companies_and_labs", []):
+    for item in SEARCH_DATA:
 
-        text = (
-            str(item.get("name", "")) + " " +
-            str(item.get("headline", "")) + " " +
-            str(item.get("description", "")) + " " +
-            " ".join(item.get("key_points", []))
-        ).lower()
+        text = item["name"].lower() + " " + " ".join(item["keywords"])
 
         if query in text:
 
             results.append({
-                "section": "ai",
                 "name": item["name"],
-                "category": item.get("category", ""),
-                "description": item.get("description", ""),
-                "image_url": item.get("image_url", ""),
-                "image_alt": item.get("image_alt", ""),
-                "tags": item.get("tags", []),
-                "links": item.get("links", [])
-            })
-
-    # Search biotechnology
-    for item in BIOTECH_DATA.get("companies", []):
-
-        text = (
-            str(item.get("name", "")) + " " +
-            str(item.get("technology", "")) + " " +
-            str(item.get("headline", "")) + " " +
-            str(item.get("description", "")) + " " +
-            " ".join(item.get("key_features", []))
-        ).lower()
-
-        if query in text:
-
-            results.append({
-                "section": "biotech",
-                "name": item["name"],
-                "category": "Biotechnology",
-                "description": item.get("description", ""),
-                "image_url": item.get("image_url", ""),
-                "image_alt": item.get("image_alt", ""),
-                "tags": item.get("tags", []),
-                "links": item.get("links", [])
+                "section": item["section"],
+                "endpoint": item["endpoint"]
             })
 
     return jsonify({
@@ -78,19 +141,58 @@ def topics():
 
     return jsonify({
         "topics": [
-            {"name": "Technology", "endpoint": "/api/technology"},
-            {"name": "Timeline", "endpoint": "/api/timeline"},
-            {"name": "TGV", "endpoint": "/api/tgv"},
-            {"name": "Innovations", "endpoint": "/api/innovations"},
-            {"name": "Energy", "endpoint": "/api/energy"},
-            {"name": "Space", "endpoint": "/api/space"},
-            {"name": "Startups", "endpoint": "/api/startups"},
-            {"name": "Artificial Intelligence", "endpoint": "/api/ai"},
-            {"name": "Biotechnology", "endpoint": "/api/biotech"},
-            {"name": "Deep Tech", "endpoint": "/api/deep-tech"},
-            {"name": "Innovation Map", "endpoint": "/api/innovation-map"},
-            {"name": "French Technology Words", "endpoint": "/api/french-words"},
-            {"name": "Important People", "endpoint": "/api/people"}
+            {
+                "name": "Technology",
+                "endpoint": "/api/technology"
+            },
+            {
+                "name": "Timeline",
+                "endpoint": "/api/timeline"
+            },
+            {
+                "name": "TGV",
+                "endpoint": "/api/tgv"
+            },
+            {
+                "name": "Innovations",
+                "endpoint": "/api/innovations"
+            },
+            {
+                "name": "Energy",
+                "endpoint": "/api/energy"
+            },
+            {
+                "name": "Space",
+                "endpoint": "/api/space"
+            },
+            {
+                "name": "Startups",
+                "endpoint": "/api/startups"
+            },
+            {
+                "name": "Artificial Intelligence",
+                "endpoint": "/api/ai"
+            },
+            {
+                "name": "Biotechnology",
+                "endpoint": "/api/biotech"
+            },
+            {
+                "name": "Deep Tech",
+                "endpoint": "/api/deep-tech"
+            },
+            {
+                "name": "Innovation Map",
+                "endpoint": "/api/innovation-map"
+            },
+            {
+                "name": "French Technology Words",
+                "endpoint": "/api/french-words"
+            },
+            {
+                "name": "Important People",
+                "endpoint": "/api/people"
+            }
         ]
     })
 
